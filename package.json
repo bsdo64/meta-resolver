@@ -1,0 +1,41 @@
+{
+  "name": "meta-resolver",
+  "description": "Metafetch fetches a given URL's title, description, images, links etc.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/afzaalace/metafetch",
+  "repository": "git://github.com/bsdo64/meta-resolver.git",
+  "author": "bsdo64",
+  "keywords": [
+    "meta",
+    "graph",
+    "tags",
+    "description",
+    "images"
+  ],
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "lodash": "^4.11.1",
+    "modern-random-ua": "^1.0.3",
+    "superagent": "^3.5.2",
+    "superagent-charset": "^1.1.1",
+    "uri-js": "^3.0.2"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.9",
+    "istanbul": "^0.4.3",
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.2.0",
+    "should": "^11.2.1"
+  },
+  "scripts": {
+    "test": "mocha test --timeout 20s && istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/afzaalace/metafetch/issues"
+  }
+}
