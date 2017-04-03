@@ -1,12 +1,12 @@
 const _ = require('lodash'),
   cheerio = require('cheerio'),
   charset = require('superagent-charset'),
-  rest = require('superagent'),
+  request = require('superagent'),
   URI = require('uri-js'),
   random_ua = require('modern-random-ua'),
   Client = {};
 
-charset(rest);
+charset(request);
 
 const parseMeta = function (url, options, body) {
   const uri = URI.parse(url);
@@ -101,7 +101,7 @@ Client.fetch = function (url, options, callback) {
     },
     followRedirects: false
   };
-  var _options = {
+  const _options = {
     title: true,
     description: true,
     type: true,
@@ -129,8 +129,8 @@ Client.fetch = function (url, options, callback) {
 
   let redirectCount = 0;
   const text = function () {
-    const headReq = rest.head(url);
-    const getReq = rest.get(url);
+    const headReq = request.head(url);
+    const getReq = request.get(url);
 
     if (http_options.timeout) {
       getReq.timeout(http_options.timeout);
@@ -169,16 +169,27 @@ Client.fetch = function (url, options, callback) {
       }
 
       return getReq
-        .charset(charSet)
-        .end((err, response) => {
-          if (err) {
-            return callback(err);
-          }
+        //.charset(charSet)
+        .buffer(true).parse((res, cb)=>{
+          let buffer = [];
+          res.on('data', (chunk)=>{
+            buffer.push(chunk);
+          });
+          res.on('end', ()=> {
 
-          const result = response.text;
-          const meta = parseMeta(url, _options, result);
+            const IconvLite = require('iconv-lite');
+            const result = IconvLite.decode(Buffer.concat(buffer), charSet);
+
+            cb(null, result)
+          })
+        })
+        .then(result => {
+          const meta = parseMeta(url, _options, result.body);
           return callback(null, meta);
-        });
+        })
+        .catch(err => {
+          console.log(err);
+        })
     });
   };
   text();

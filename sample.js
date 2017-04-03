@@ -1,6 +1,6 @@
 var metafetch = require('./index');
 
-metafetch.fetch('http://www.treehugger.com/cars/tesla-model-x-update-first-ev-towing-capability-dual-motors-falcon-wing-doors-etc.html', function (err, meta) {
+metafetch.fetch('http://news.chosun.com/site/data/html_dir/2017/04/03/2017040301455.html', function (err, meta) {
     console.log('title: ', meta.title);
     console.log('description: ', meta.description);
     console.log('type: ', meta.type);
@@ -15,7 +15,7 @@ metafetch.fetch('http://www.treehugger.com/cars/tesla-model-x-update-first-ev-to
 
 // Optional flags to disable parsing images and links and http request options for restler
 
-metafetch.fetch('http://www.treehugger.com/cars/tesla-model-x-update-first-ev-towing-capability-dual-motors-falcon-wing-doors-etc.html', {
+metafetch.fetch('https://www.youtube.com/watch?v=jrYIZ9VgmKo&list=PL32F95A53EA5E7ED6&index=4', {
     flags: {
         images: false,
         links: false

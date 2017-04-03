@@ -52,7 +52,7 @@ describe('server', function() {
 			}
 		}, function(err, meta) {
 			should.exist(err);
-			err.should.equal(404);
+			err.status.should.equal(404);
 			done();
 		});
 	});
