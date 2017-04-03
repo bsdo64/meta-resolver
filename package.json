@@ -2,7 +2,7 @@
   "name": "meta-resolver",
   "description": "Metafetch fetches a given URL's title, description, images, links etc.",
   "version": "0.0.2",
-  "homepage": "https://github.com/afzaalace/metafetch",
+  "homepage": "https://github.com/bsdo64/meta-resolver",
   "repository": "git://github.com/bsdo64/meta-resolver.git",
   "author": "bsdo64",
   "keywords": [
@@ -33,13 +33,13 @@
   },
   "scripts": {
     "lint": "eslint index.js",
-    "test": "mocha test --timeout 20s && istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec"
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "engines": {
     "node": ">= 6.0.0"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/afzaalace/metafetch/issues"
+    "url": "https://github.com/bsdo64/meta-resolver/issues"
   }
 }
