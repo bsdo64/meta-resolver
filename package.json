@@ -1,7 +1,7 @@
 {
   "name": "meta-resolver",
   "description": "Metafetch fetches a given URL's title, description, images, links etc.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/afzaalace/metafetch",
   "repository": "git://github.com/bsdo64/meta-resolver.git",
   "author": "bsdo64",
