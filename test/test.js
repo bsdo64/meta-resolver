@@ -216,19 +216,6 @@ describe('server', function() {
     });
   });
 
-  it('should fetch MS949', function(done) {
-    fetchog.fetch('http://cafe.naver.com/joonggonara', {
-      http: {
-        timeout: 1000,
-      },
-    }, function(err, meta) {
-      should.not.exist(err);
-      should.exist(meta);
-      should.exist(meta.uri);
-      done();
-    });
-  });
-
   it('should err with not exist url', function(done) {
     fetchog.fetch('http://aslkdvjanef.asdvasef', {
       http: {
@@ -242,11 +229,7 @@ describe('server', function() {
 
   describe('should proper decoding ', function() {
     it('EUC-KR', function(done) {
-      fetchog.fetch('http://www.chosun.com/', {
-        http: {
-          timeout: 1000,
-        },
-      }, function(err, meta) {
+      fetchog.fetch('http://www.chosun.com/', function(err, meta) {
         should.not.exist(err);
         meta.charset.should.equal('euc-kr');
         meta.title.should.equal('홈 - 1등 인터넷뉴스 조선닷컴');
@@ -255,11 +238,7 @@ describe('server', function() {
     });
 
     it('MS949(KSC5601)', function(done) {
-      fetchog.fetch('http://cafe.naver.com/joonggonara', {
-        http: {
-          timeout: 1000,
-        },
-      }, function(err, meta) {
+      fetchog.fetch('http://cafe.naver.com/joonggonara', function(err, meta) {
         should.not.exist(err);
         meta.charset.should.equal('ms949');
         meta.title.should.equal('중고나라 : 네이버 카페');
@@ -268,11 +247,7 @@ describe('server', function() {
     });
 
     it('UTF-8', function(done) {
-      fetchog.fetch('https://www.google.co.kr', {
-        http: {
-          timeout: 1000,
-        },
-      }, function(err, meta) {
+      fetchog.fetch('https://www.google.co.kr', function(err, meta) {
         should.not.exist(err);
         meta.charset.should.equal('utf-8');
         meta.title.should.equal('Google');
