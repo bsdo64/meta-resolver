@@ -67,8 +67,8 @@ class Client {
     }
 
     if (this._options.flags.images) {
-      const imagehash = {};
-      response.images = $('img').map(function() {
+      response.images = [];
+      $('img').map(function() {
         const src = $(this).attr('src');
         if (src) {
           return URI.resolve(url, src);
@@ -76,27 +76,25 @@ class Client {
           return '';
         }
       }).filter(function(e, f) {
-        return (f.match(/\.(jpeg|jpg|gif|png|JPEG|JPG|GIF|PNG)$/) !== null);
-      }).filter(function(item) {
-        return imagehash.hasOwnProperty(item) ?
-          false :
-          (imagehash[item] = true);
+        return (f.match(/\.(jpe?g|gif|png|JPEG|JPG|GIF|PNG)/) !== null);
+      }).filter(function(i, el) {
+        return response.images.push(el)
       });
     }
     if (this._options.flags.links) {
-      const linkhash = {};
-      response.links = $('a').map(function() {
+      response.links = [];
+      $('a').map(function() {
         const href = $(this).attr('href');
         if (href && href.trim().length && href[0] !== '#') {
           return URI.resolve(url, href);
         } else {
           return 0;
         }
-      }).filter(function(item) {
-        if (item === 0) {
+      }).filter(function(i, el) {
+        if (el === 0) {
           return false;
         }
-        return linkhash.hasOwnProperty(item) ? false : (linkhash[item] = true);
+        return response.links.push(el);
       });
     }
     const meta = $('meta'),
@@ -142,13 +140,8 @@ class Client {
   requestMeta(redirectCount, callback) {
     const getReq = request.get(this.url);
 
-    if (this._options.requestOptions.timeout) {
-      getReq.timeout(this._options.requestOptions.timeout);
-    }
-
-    if (this._options.requestOptions.headers) {
-      getReq.set(this._options.requestOptions.headers);
-    }
+    getReq.timeout(this._options.requestOptions.timeout);
+    getReq.set(this._options.requestOptions.headers);
 
     return getReq
       .buffer(true).parse((res, cb) => {
@@ -161,11 +154,7 @@ class Client {
         });
       })
       .then(result => {
-        if (!result) {
-          return callback('No Result!');
-        }
-
-        const tempBuffer = IconvLite.decode(result.body, 'utf8');
+        const tempBuffer = IconvLite.decode(result.body, 'utf-8');
         const charSet = this.getCharSet(result);
 
         if (!IconvLite.encodingExists(charSet)) {
@@ -173,7 +162,7 @@ class Client {
         }
 
         let decodedBody;
-        if (charSet !== 'utf8') {
+        if (charSet !== 'utf-8') {
           decodedBody = IconvLite.decode(result.body, charSet);
         } else {
           decodedBody = tempBuffer;
@@ -186,7 +175,6 @@ class Client {
         return callback(null, meta);
       })
       .catch(err => {
-
         if (err && err.timeout) {
           return callback('Timeout');
         }
@@ -201,9 +189,7 @@ class Client {
           return callback(err.status);
         }
 
-        if (err) {
-          return callback(err);
-        }
+        return callback(err);
 
       });
   }

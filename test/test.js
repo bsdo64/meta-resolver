@@ -29,6 +29,28 @@ describe('server', function() {
           return res.end();
         }
 
+        if (req.url === '/notsupportencoding') {
+          res.writeHead(200, {"Content-Type": "text/plain;charset=notsupport"});
+          return res.end();
+        }
+
+        if (req.url === '/servererror') {
+          res.writeHead(500, {"Content-Type": "text/plain"});
+          return res.end();
+        }
+
+        if (req.url === '/imagewithoutsrc') {
+          res.writeHead(200, {"Content-Type": "text/plain"});
+          res.write(
+            '<html><head></head><body>' +
+            '<img />' +
+            '<img src="https://lh6.googleusercontent.com/-yvXf77n1ghY/AAAAAAAAAAI/AAAAAAAAABA/tAwj9r0-_B8/photo.jpg?">' +
+            '<img src="/test.img" />' +
+            '</body></html>'
+          );
+          return res.end();
+        }
+
         res.write(
           '<html><head></head><body><a href=\'\'>Invalid link</a></body></html>');
         res.end();
@@ -170,6 +192,13 @@ describe('server', function() {
       done();
     });
   });
+  it('should get images filter not have img src', function(done) {
+    fetchog.fetch('http://localhost:14445/imagewithoutsrc', function(err, meta) {
+      should.not.exist(err);
+      should.exist(meta.images[0]);
+      done();
+    });
+  });
   it('should err', function(done) {
     fetchog.fetch('http://0.0.0.0/', {
       http: {
@@ -215,6 +244,13 @@ describe('server', function() {
       done();
     });
   });
+  it('should get error with status 500', function(done) {
+    fetchog.fetch('http://localhost:14445/servererror', function(err) {
+      should.exist(err);
+      err.should.equal(500);
+      done();
+    });
+  });
 
   it('should err with not exist url', function(done) {
     fetchog.fetch('http://aslkdvjanef.asdvasef', {
@@ -228,6 +264,16 @@ describe('server', function() {
   });
 
   describe('should proper decoding ', function() {
+    it('should get error not support encoding', function(done) {
+      // www.nasa.gov adds a trailing slash
+      fetchog.fetch(
+        'http://localhost:14445/notsupportencoding',
+        function(err) {
+          should.exist(err);
+          err.should.equal('Encoding is not supported!');
+          done();
+        });
+    });
     it('EUC-KR', function(done) {
       fetchog.fetch('http://www.chosun.com/', function(err, meta) {
         should.not.exist(err);
