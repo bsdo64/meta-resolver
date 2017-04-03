@@ -1,4 +1,4 @@
-var metafetch = require('./index');
+const metafetch = require('./index');
 
 metafetch.fetch('http://news.chosun.com/site/data/html_dir/2017/04/03/2017040301455.html', function (err, meta) {
     console.log('title: ', meta.title);

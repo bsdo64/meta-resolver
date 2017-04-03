@@ -1,23 +1,23 @@
-# Node [metafetch](https://www.npmjs.org/package/metafetch)
-[![Build Status](https://img.shields.io/travis/bsdo64/meta-resolver.svg?style=flat-square)](https://travis-ci.org/afzaalace/metafetch)
-[![Coverage](https://img.shields.io/codecov/c/github/bsdo64/meta-resolver.svg?style=flat-square)](https://codecov.io/github/afzaalace/metafetch?branch=master)
-[![Coverage](https://img.shields.io/coveralls/bsdo64/meta-resolver.svg?style=flat-square)](https://coveralls.io/github/afzaalace/metafetch?branch=master)
+# Node [metafetch](https://www.npmjs.org/package/meta-resolver)
+[![Build Status](https://img.shields.io/travis/bsdo64/meta-resolver.svg?style=flat-square)](https://travis-ci.org/bsdo64/meta-resolver)
+[![Coverage](https://img.shields.io/codecov/c/github/bsdo64/meta-resolver.svg?style=flat-square)](https://codecov.io/github/bsdo64/meta-resolver?branch=master)
+[![Coverage](https://img.shields.io/coveralls/bsdo64/meta-resolver.svg?style=flat-square)](https://coveralls.io/github/bsdo64/meta-resolver?branch=master)
 
 [![NPM](https://nodei.co/npm/meta-resolver.png?downloadRank=true&downloads=true)](https://nodei.co/npm/meta-resolver.png?downloadRank=true&downloads=true)
 
-Metafetch fetches a given URL's title, description, images, links etc.
+Meta-resolver fetches a given URL's title, description, images, links etc.
 
 ## Installation ##
 
 Use NPM to install:
 
-    npm install metafetch
+    npm install meta-resolver
 
 ## Usage
 
-    var metafetch = require('metafetch');
+    var meta = require('meta-resolver');
 
-    metafetch.fetch('http://www.facebook.com'[, options], function(err, meta) {
+    meta.fetch('http://www.facebook.com'[, options], function(err, meta) {
         console.log('title: ', meta.title);
         console.log('description: ', meta.description);
         console.log('type: ', meta.type);
@@ -30,9 +30,9 @@ Use NPM to install:
         console.log('links: ', meta.links);
     });
 
-Optional flags to disable parsing images and links and http request options for [restler](https://github.com/danwrong/restler)
+Optional flags to disable parsing images and links and http request options for [superagent](https://github.com/visionmedia/superagent)
 
-    metafetch.fetch('http://www.facebook.com', { flags: { images: false, links: false }, http: { timeout: 30000 } }, function(err, meta) {
+    meta.fetch('http://www.facebook.com', { flags: { images: false, links: false }, http: { timeout: 30000 } }, function(err, meta) {
         console.log('title: ', meta.title);
         console.log('description: ', meta.description);
         console.log('type: ', meta.type);
@@ -58,7 +58,7 @@ Optional flags to disable parsing images and links and http request options for 
 
 (The MIT License)
 
-Copyright (c) 2014 Afzaalace;
+Copyright (c) 2017 bsdo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
